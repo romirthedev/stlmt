@@ -1,240 +1,334 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Timer, Bot, Gamepad2, Trophy, History, BookOpen, X, ChevronDown, ChevronUp, ChevronRight } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Spelling Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --accent-color: linear-gradient(135deg, #60a5fa, #3b82f6);
+            --text-color: #e5e7eb;
+            --glow-color: rgba(96, 165, 250, 0.5);
+        }
 
-const StarBackground = () => {
-  const stars = Array(100).fill(null);
-  return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {stars.map((_, i) => {
-        const size = Math.random() * 2 + 1;
-        const animationDuration = Math.random() * 3 + 2;
-        const left = Math.random() * 100;
-        const top = Math.random() * 100;
-        return (
-          <div
-            key={i}
-            className="absolute rounded-full bg-white"
-            style={{
-              width: `${size}px`,
-              height: `${size}px`,
-              left: `${left}%`,
-              top: `${top}%`,
-              animation: `pulse ${animationDuration}s infinite ease-in-out`,
-              animationDelay: `${Math.random() * 3}s`,
-            }}
-          />
-        );
-      })}
-    </div>
-  );
-};
+        body, html {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #000000, #000033, #000066);
+            color: var(--text-color);
+            font-family: -apple-system, system-ui, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-const Modal = ({ isOpen, onClose, title, children }) => {
-  if (!isOpen) return null;
-  
-  return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 overflow-y-auto">
-      <div className="min-h-screen px-4 py-6">
-        <div className="bg-gray-800 rounded-lg max-w-2xl mx-auto">
-          <div className="flex justify-between items-center p-4 border-b border-gray-700">
-            <h3 className="text-xl font-semibold text-gray-100">{title}</h3>
-            <button onClick={onClose} className="p-1 hover:bg-gray-700 rounded-full">
-              <X className="w-6 h-6 text-gray-400" />
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite;
+        }
+
+        .container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(0, 0, 30, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px var(--glow-color);
+            margin-bottom: 20px;
+            animation: float 6s ease-in-out infinite;
+            backdrop-filter: blur(5px);
+        }
+
+        .title {
+            font-size: 2.5em;
+            margin: 0;
+            background: var(--accent-color);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .game-area {
+            background: rgba(0, 0, 30, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px var(--glow-color);
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .word-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1em;
+        }
+
+        .word-input:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 15px rgba(96, 165, 250, 0.3);
+        }
+
+        .game-log {
+            height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+
+        .button:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(to bottom right, #000000, #000033, #000066);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+            color: white;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid #3b82f6;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 1001;
+        }
+
+        .timer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: rgba(0, 0, 30, 0.8);
+            border-radius: 20px;
+            border: 1px solid #3b82f6;
+            color: white;
+            z-index: 100;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 10px; }
+            .title { font-size: 1.8em; }
+            .modal-content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="starsBackground"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Play Against AI Models</h1>
+            <div class="subtitle">
+                <p><i class="fas fa-robot"></i> Opponent: GPT 4o mini</p>
+                <p><i class="fas fa-gamepad"></i> Environment: SpellingBee-v0</p>
+            </div>
+        </div>
+
+        <button class="button" onclick="openModal('instructions')">
+            <i class="fas fa-book"></i> Instructions
+        </button>
+
+        <div class="game-area">
+            <div class="input-container">
+                <input type="text" class="word-input" placeholder="Enter your word..." id="wordInput">
+                <button class="button" onclick="submitWord()">
+                    <i class="fas fa-paper-plane"></i> Send
+                </button>
+            </div>
+            
+            <div class="game-log" id="gameLog">
+                <!-- Log entries will be added here -->
+            </div>
+
+            <button class="button" onclick="openModal('performance')">
+                <i class="fas fa-chart-line"></i> View Performance
             </button>
-          </div>
-          <div className="p-4">
-            {children}
-          </div>
         </div>
-      </div>
+
+        <div class="timer" id="timer">
+            <i class="fas fa-clock"></i> 60s
+        </div>
     </div>
-  );
-};
 
-export default function GameInterface() {
-  const [showInstructions, setShowInstructions] = useState(false);
-  const [showPerformance, setShowPerformance] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(52);
-  const [isPaused, setIsPaused] = useState(false);
+    <div class="modal" id="instructionsModal">
+        <div class="stars"></div>
+        <button class="modal-close" onclick="closeModal('instructions')">&times;</button>
+        <div class="modal-content">
+            <h2><i class="fas fa-book"></i> Testing Instructions</h2>
+            <p>This is the instructions modal content.</p>
+            <p>Click the X in the top right to close.</p>
+        </div>
+    </div>
 
-  const performanceData = {
-    gamesPlayed: 2,
-    winRate: 0,
-    wins: 0,
-    losses: 1,
-    draws: 0,
-    lastGames: [
-      { environment: 'Poker-v0', opponent: 'Claude 3.5 Sonnet', outcome: 'Loss' },
-      { environment: 'TruthAndDeception-v0', opponent: 'Claude 3.5 Haiku', outcome: 'Unknown' }
-    ]
-  };
+    <div class="modal" id="performanceModal">
+        <div class="stars"></div>
+        <button class="modal-close" onclick="closeModal('performance')">&times;</button>
+        <div class="modal-content">
+            <h2><i class="fas fa-chart-line"></i> Testing Performance</h2>
+            <p>This is the performance modal content.</p>
+            <p>Click the X in the top right to close.</p>
+        </div>
+    </div>
 
-  const gameInstructions = `You are Player 0 in the Spelling Bee Game.
-Allowed Letters: aehmotu
-Create the longest possible English word using only the allowed letters.
-You may use each letter multiple times.
-Please wrap your word in square brackets, e.g., '[example]'.
-On your turn, simply type your word.`;
-
-  const handleShowInstructions = () => {
-    setShowInstructions(true);
-    setIsPaused(true);
-  };
-
-  const handleCloseInstructions = () => {
-    setShowInstructions(false);
-    setIsPaused(false);
-  };
-
-  useEffect(() => {
-    if (!isPaused && timeRemaining > 0) {
-      const timer = setInterval(() => {
-        setTimeRemaining(prev => (prev > 0 ? prev - 1 : 0));
-      }, 1000);
-      return () => clearInterval(timer);
+    <script>
+    // Create stars
+    function createStars() {
+        const containers = document.querySelectorAll('.stars');
+        containers.forEach(container => {
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.width = star.style.height = `${Math.random() * 2}px`;
+                star.style.setProperty('--duration', `${2 + Math.random() * 3}s`);
+                container.appendChild(star);
+            }
+        });
     }
-  }, [isPaused, timeRemaining]);
 
-  return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
-      <style>
-        {`
-          @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
-          }
-        `}
-      </style>
-      <StarBackground />
-      
-      <div className="relative max-w-3xl mx-auto p-4 space-y-4">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">
-            Play Against AI Models
-          </h1>
-          <p className="text-sm text-gray-400">
-            Random environment from a balanced set. 1 min/turn. Text-based for fairness!
-          </p>
-        </div>
+    // Timer functionality
+    let timeRemaining = 60;
+    let timerInterval;
 
-        {/* Game Info */}
-        <div className="bg-gray-800/80 backdrop-blur rounded-lg p-4 space-y-2">
-          <div className="flex justify-between items-center text-sm">
-            <div className="flex items-center space-x-2">
-              <Bot className="w-4 h-4 text-blue-400" />
-              <span>GPT 4o mini</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Gamepad2 className="w-4 h-4 text-teal-400" />
-              <span>SpellingBee-v0</span>
-            </div>
-          </div>
+    function startTimer() {
+        const timerElement = document.getElementById('timer');
+        timerInterval = setInterval(() => {
+            timeRemaining--;
+            timerElement.innerHTML = `<i class="fas fa-clock"></i> ${timeRemaining}s`;
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                timerElement.innerHTML = '<i class="fas fa-clock"></i> Time\'s up!';
+            }
+        }, 1000);
+    }
 
-          <button
-            onClick={handleShowInstructions}
-            className="w-full py-2 px-4 bg-gray-700/50 hover:bg-gray-700 rounded-lg transition-colors flex items-center justify-between"
-          >
-            <span className="flex items-center space-x-2">
-              <BookOpen className="w-4 h-4 text-blue-400" />
-              <span>View Instructions</span>
-            </span>
-            <ChevronRight className="w-4 h-4 text-gray-400" />
-          </button>
+    function pauseTimer() {
+        clearInterval(timerInterval);
+    }
 
-          {/* Game Input */}
-          <div className="space-y-2">
-            <div className="flex">
-              <input
-                type="text"
-                placeholder="Enter your move..."
-                className="flex-1 bg-gray-700/50 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button className="bg-blue-500 hover:bg-blue-400 px-6 py-2 rounded-r-lg transition-colors">
-                Send
-              </button>
-            </div>
-            <div className="flex items-center justify-end space-x-2 text-sm text-yellow-400">
-              <Timer className="w-4 h-4" />
-              <span>{timeRemaining}s remaining</span>
-            </div>
-          </div>
+    function openModal(type) {
+        const modal = document.getElementById(`${type}Modal`);
+        if (modal) {
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            pauseTimer();
+        }
+    }
 
-          <button
-            onClick={() => setShowPerformance(true)}
-            className="w-full py-2 px-4 bg-gray-700/50 hover:bg-gray-700 rounded-lg transition-colors flex items-center justify-between"
-          >
-            <span className="flex items-center space-x-2">
-              <Trophy className="w-4 h-4 text-yellow-400" />
-              <span>View Performance</span>
-            </span>
-            <ChevronRight className="w-4 h-4 text-gray-400" />
-          </button>
-        </div>
-      </div>
+    function closeModal(type) {
+        const modal = document.getElementById(`${type}Modal`);
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            startTimer();
+        }
+    }
 
-      {/* Instructions Modal */}
-      <Modal
-        isOpen={showInstructions}
-        onClose={handleCloseInstructions}
-        title="Game Instructions"
-      >
-        <pre className="whitespace-pre-wrap font-mono text-sm text-gray-300">
-          {gameInstructions}
-        </pre>
-      </Modal>
+    function submitWord() {
+        const input = document.getElementById('wordInput');
+        const log = document.getElementById('gameLog');
+        if (input.value.trim()) {
+            const entry = document.createElement('div');
+            entry.innerHTML = `<i class="fas fa-arrow-right"></i> [${input.value}]`;
+            entry.style.padding = '8px';
+            entry.style.borderBottom = '1px solid rgba(59, 130, 246, 0.2)';
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+            input.value = '';
+        }
+    }
 
-      {/* Performance Modal */}
-      <Modal
-        isOpen={showPerformance}
-        onClose={() => setShowPerformance(false)}
-        title="Your Performance"
-      >
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-gray-700/50 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold">{performanceData.gamesPlayed}</div>
-              <div className="text-sm text-gray-400">Games Played</div>
-            </div>
-            <div className="bg-gray-700/50 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold">{performanceData.winRate}%</div>
-              <div className="text-sm text-gray-400">Win Rate</div>
-            </div>
-            <div className="bg-gray-700/50 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold">{performanceData.wins}</div>
-              <div className="text-sm text-gray-400">Wins</div>
-            </div>
-            <div className="bg-gray-700/50 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold">{performanceData.losses}</div>
-              <div className="text-sm text-gray-400">Losses</div>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-semibold mb-3 flex items-center space-x-2">
-              <History className="text-gray-400" />
-              <span>Last 10 Games</span>
-            </h3>
-            <div className="space-y-2">
-              {performanceData.lastGames.map((game, index) => (
-                <div key={index} className="bg-gray-700/50 p-3 rounded-lg flex justify-between items-center">
-                  <div className="space-y-1">
-                    <div className="text-sm font-medium">{game.environment}</div>
-                    <div className="text-xs text-gray-400">{game.opponent}</div>
-                  </div>
-                  <span className={`px-2 py-1 rounded-full text-sm ${
-                    game.outcome === 'Loss' ? 'bg-red-500/20 text-red-400' :
-                    game.outcome === 'Win' ? 'bg-green-500/20 text-green-400' :
-                    'bg-gray-500/20 text-gray-400'
-                  }`}>
-                    {game.outcome}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Modal>
-    </div>
-  );
-}
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        createStars();
+        startTimer();
+        
+        // Handle Enter key
+        document.getElementById('wordInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') submitWord();
+        });
+    });
+</script>
+</body>
+</html>
