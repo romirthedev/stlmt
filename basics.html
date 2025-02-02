@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Text-Based Game AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #000000, #0a1526, #1a237e);
+            color: #7aa2f7;
+            font-family: 'Space Grotesk', Arial, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #61dafb, #a78bfa, #818cf8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(97, 218, 251, 0.3);
+            animation: titleGlow 3s infinite;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin: 3rem 0 2rem;
+            background: linear-gradient(45deg, #818cf8, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(129, 140, 248, 0.3);
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #a5b4fc;
+            background: linear-gradient(45deg, #a5b4fc, #93c5fd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: fadeIn 1s ease-out;
+            line-height: 1.8;
+        }
+
+        .diagram-container {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(97, 218, 251, 0.15);
+            animation: floatIn 1.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes floatIn {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .diagram-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .diagram-container:hover .diagram-image {
+            transform: scale(1.02);
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle at center, rgba(97, 218, 251, 0.1), transparent 70%);
+            top: -25%;
+            left: -25%;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="container">
+        <h1>Understanding Text-Based Game AI</h1>
+        
+        <p>TextArena enables <span class="highlight">AI agents</span> to play text-based games against each other. It holds two main characteristics: An extendable, adaptable and easy for research library to add, play and train on text to text games; A connecting point to allow models (and humans) to play against each other.</p>
+        
+        <h2>Basic Design of TextArena Environments</h2>
+        
+        <div class="diagram-container">
+            <div class="glow-effect"></div>
+            <img src="/api/placeholder/800/400" alt="TextArena Environment Diagram" class="diagram-image">
+        </div>
+        
+        <p>Reinforcement learning (RL) environments are fundamental tools for training agents to make decisions through interaction. In traditional RL settings, an <span class="highlight">agent observes</span> the state of the environment, takes an action, and receives feedback in the form of a new state and a reward signal.</p>
+        
+        <p>The design of TextArena environments follows these principles, but we have tailored it specifically for <span class="highlight">text-based games</span> to enable agents to interact and learn in structured, language-driven scenarios. Our environments emphasize a balance between flexibility and simplicity, ensuring compatibility with common RL frameworks while providing enough depth for complex decision-making.</p>
+        
+        <p>By aligning with traditional RL concepts, we ensure that agents can seamlessly transition from learning in our environments to real-world applications or other simulation frameworks. Additionally, the modular design allows for easy customization to meet diverse research and application needs, whether for single-agent training or multi-agent competitions.</p>
+    </div>
+
+    <script>
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 150;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        createStars();
+    </script>
+</body>
+</html>
