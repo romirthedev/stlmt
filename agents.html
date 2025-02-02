@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextArena Agent Overview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #000000, #0a1526, #1a237e);
+            color: #a5b4fc;
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        h1, h2 {
+            background: linear-gradient(45deg, #61dafb, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        h1 { 
+            font-size: 3.5rem; 
+            margin-bottom: 2rem;
+        }
+        
+        h2 { 
+            font-size: 2.2rem; 
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            color: #a5b4fc;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            position: relative;
+            border: 1px solid rgba(97, 218, 251, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .code-block:hover {
+            border-color: rgba(97, 218, 251, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        .language-tag {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #61dafb;
+        }
+
+        .language-dot {
+            width: 8px;
+            height: 8px;
+            background: #61dafb;
+            border-radius: 50%;
+        }
+
+        .copy-button {
+            background: rgba(97, 218, 251, 0.1);
+            border: 1px solid rgba(97, 218, 251, 0.2);
+            color: #61dafb;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background: rgba(97, 218, 251, 0.2);
+            transform: translateY(-1px);
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        code {
+            color: #e1e1e6;
+        }
+
+        .comment { color: #6272a4; }
+        .keyword { color: #ff79c6; }
+        .string { color: #50fa7b; }
+        .number { color: #bd93f9; }
+        .function { color: #8be9fd; }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .features-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: #a5b4fc;
+        }
+
+        .features-list li::before {
+            content: "•";
+            color: #61dafb;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: rgba(97, 218, 251, 0.05);
+            border-left: 3px solid #61dafb;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 12px 12px 0;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="container">
+        <h1>Overview</h1>
+        
+        <div class="highlight-box">
+            <p>Agents are the decision-makers that interact with environments to produce actions based on observations. By leveraging base agents or customizing them with wrappers, you can extend their functionality, tailor their behavior, and optimize them for specific tasks.</p>
+        </div>
+
+        <h2>Basic Agents</h2>
+        <p>To use an agent, start by instantiating a base agent. You can then enhance its capabilities by wrapping it with additional functionality. Wrappers provide a modular approach to integrating reasoning, debugging, and other enhancements into the decision-making process.</p>
+
+        <div class="code-block">
+            <div class="code-header">
+                <div class="language-tag">
+                    <div class="language-dot"></div>
+                    Python
+                </div>
+                <button class="copy-button">Copy</button>
+            </div>
+            <pre><code><span class="comment"># Example usage:</span>
+<span class="keyword">import</span> textarena <span class="keyword">as</span> ta
+
+<span class="comment"># Initialize the agents</span>
+agents = {
+    <span class="number">0</span>: ta.agents.OpenRouterAgent(model_name=<span class="string">"GPT-4o-mini"</span>),
+    <span class="number">1</span>: ta.agents.CerebrasAgent(model_name=<span class="string">"cerebras-llm-13b"</span>),
+}</code></pre>
+        </div>
+
+        <h2>Agent Wrappers</h2>
+        <p>The TextArena framework also provides wrappers for agents to help you achieve additional enhancements, such as:</p>
+        
+        <ul class="features-list">
+            <li>Processing observations by adding reasoning or planning before deciding actions.</li>
+            <li>Chaining multiple agents to perform sequential tasks, where each agent builds on the output of the previous one.</li>
+            <li>Debugging or visualizing an agent's decision-making process for better insights.</li>
+        </ul>
+
+        <div class="highlight-box">
+            <p>These enhancements make it easier to build sophisticated agents that can tackle complex environments and decision-making workflows seamlessly.</p>
+        </div>
+    </div>
+
+    <script>
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 150;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        createStars();
+
+        // Add copy functionality
+        document.querySelector('.copy-button').addEventListener('click', function() {
+            const code = document.querySelector('pre').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = 'Copy';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
