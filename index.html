@@ -12,6 +12,7 @@
       padding: 0;
       box-sizing: border-box;
       font-family: system-ui, -apple-system, sans-serif;
+      cursor: none; /* Hide the default cursor */
     }
 
     body {
@@ -115,7 +116,7 @@
       padding: 1rem 2rem;
       border-radius: 8px;
       border: none;
-      cursor: pointer;
+      cursor: none; /* Hide cursor on buttons */
       font-weight: 600;
       display: flex;
       align-items: center;
@@ -262,9 +263,9 @@
       color: #4a90e2;
       z-index: 10000;
       transform: translate(-50%, -50%);
-      white-space: nowrap;
       font-family: monospace;
       opacity: 0.8;
+      user-select: none;
     }
 
     /* Participate Section */
@@ -320,7 +321,7 @@
   </style>
 </head>
 <body>
-  <div id="binary-cursor" class="binary-cursor">1010</div>
+  <div id="binary-cursor" class="binary-cursor">0</div>
   <div id="particles-js"></div>
   <div class="container">
     <header class="header animate__animated animate__fadeIn">
@@ -439,14 +440,9 @@
     // Binary Cursor Effect
     const binaryCursor = document.getElementById('binary-cursor');
     const binaryChars = ['0', '1'];
-    let binaryText = '';
 
     function updateBinaryCursor() {
-      binaryText = '';
-      for (let i = 0; i < 4; i++) {
-        binaryText += binaryChars[Math.floor(Math.random() * binaryChars.length)];
-      }
-      binaryCursor.textContent = binaryText;
+      binaryCursor.textContent = binaryChars[Math.floor(Math.random() * binaryChars.length)];
     }
 
     setInterval(updateBinaryCursor, 100);
