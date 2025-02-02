@@ -303,8 +303,8 @@
     }
 
     .ai-card img {
-      width: 150px;
-      height: 150px;
+      width: 50px; 
+      height: 50px; 
       border-radius: 50%;
       margin-bottom: 1rem;
     }
@@ -601,8 +601,6 @@
             <p>Ultra-lightweight model for minimal tasks.</p>
           </div>
         </div>
-        <button class="slider-arrow left" onclick="slideLeft()"><i class="fas fa-chevron-left"></i></button>
-        <button class="slider-arrow right" onclick="slideRight()"><i class="fas fa-chevron-right"></i></button>
       </div>
     </section>
 
@@ -623,135 +621,153 @@
 
   <script>
     // Particles.js configuration
-    particlesJS('particles-js', {
-      particles: {
-        number: { value: 80, density: { enable: true, value_area: 800 } },
-        color: { value: '#4a90e2' },
-        shape: { type: 'circle' },
-        opacity: { value: 0.5, random: true },
-        size: { value: 3, random: true },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: '#4a90e2',
-          opacity: 0.2,
-          width: 1
-        },
-        move: {
-          enable: true,
-          speed: 2,
-          direction: 'none',
-          random: true,
-          straight: false,
-          out_mode: 'out',
-          bounce: false
-        }
-      },
-      interactivity: {
-        detect_on: 'canvas',
-        events: {
-          onhover: { enable: true, mode: 'repulse' },
-          onclick: { enable: true, mode: 'push' },
-          resize: true
-        },
-        modes: {
-          repulse: { distance: 100, duration: 0.4 },
-          push: { particles_nb: 4 }
-        }
-      },
-      retina_detect: true
-    });
-
-    // Binary Cursor Effect
-    const binaryCursor = document.getElementById('binary-cursor');
-    const binaryChars = ['0', '1'];
-
-    function updateBinaryCursor() {
-      binaryCursor.textContent = binaryChars[Math.floor(Math.random() * binaryChars.length)];
+    // Particles.js configuration
+particlesJS('particles-js', {
+  particles: {
+    number: { value: 80, density: { enable: true, value_area: 800 } },
+    color: { value: '#4a90e2' },
+    shape: { type: 'circle' },
+    opacity: { value: 0.5, random: true },
+    size: { value: 3, random: true },
+    line_linked: {
+      enable: true,
+      distance: 150,
+      color: '#4a90e2',
+      opacity: 0.2,
+      width: 1
+    },
+    move: {
+      enable: true,
+      speed: 2,
+      direction: 'none',
+      random: true,
+      straight: false,
+      out_mode: 'out',
+      bounce: false
     }
-
-    setInterval(updateBinaryCursor, 100);
-
-    document.addEventListener('mousemove', (e) => {
-      binaryCursor.style.left = e.clientX + 'px';
-      binaryCursor.style.top = e.clientY + 'px';
-    });
-
-    // GSAP Scroll Animations (Parallax)
-    gsap.registerPlugin(ScrollTrigger);
-
-    gsap.utils.toArray('.feature-card, .ranking-card, .participate').forEach(el => {
-      gsap.from(el, {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 80%',
-          toggleActions: 'play none none none'
-        }
-      });
-    });
-
-    // Parallax for header elements
-    gsap.from('.logo-container', {
-      y: -50,
-      opacity: 0,
-      duration: 1.5,
-      scrollTrigger: {
-        trigger: '.header',
-        start: 'top center',
-        toggleActions: 'play none none none'
-      }
-    });
-
-    gsap.from('.title', {
-      y: -30,
-      opacity: 0,
-      duration: 1.5,
-      delay: 0.5,
-      scrollTrigger: {
-        trigger: '.header',
-        start: 'top center',
-        toggleActions: 'play none none none'
-      }
-    });
-
-    gsap.from('.subtitle', {
-      y: -20,
-      opacity: 0,
-      duration: 1.5,
-      delay: 1,
-      scrollTrigger: {
-        trigger: '.header',
-        start: 'top center',
-        toggleActions: 'play none none none'
-      }
-    });
-
-    // AI Slider Functionality
-    let currentSlide = 0;
-    const sliderContainer = document.querySelector('.ai-slider-container');
-    const totalSlides = document.querySelectorAll('.ai-card').length;
-
-    function slideLeft() {
-      if (currentSlide > 0) {
-        currentSlide--;
-        updateSlider();
-      }
+  },
+  interactivity: {
+    detect_on: 'canvas',
+    events: {
+      onhover: { enable: true, mode: 'repulse' },
+      onclick: { enable: true, mode: 'push' },
+      resize: true
+    },
+    modes: {
+      repulse: { distance: 100, duration: 0.4 },
+      push: { particles_nb: 4 }
     }
+  },
+  retina_detect: true
+});
 
-    function slideRight() {
-      if (currentSlide < totalSlides - 3) {
-        currentSlide++;
-        updateSlider();
-      }
-    }
+// Binary Cursor Effect
+const binaryCursor = document.getElementById('binary-cursor');
+const binaryChars = ['0', '1'];
 
-    function updateSlider() {
-      const offset = -currentSlide * 33.33;
-      sliderContainer.style.transform = `translateX(${offset}%)`;
+function updateBinaryCursor() {
+  binaryCursor.textContent = binaryChars[Math.floor(Math.random() * binaryChars.length)];
+}
+
+setInterval(updateBinaryCursor, 100);
+
+document.addEventListener('mousemove', (e) => {
+  binaryCursor.style.left = e.clientX + 'px';
+  binaryCursor.style.top = e.clientY + 'px';
+});
+
+// GSAP Animations
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.utils.toArray('.feature-card, .ranking-card, .participate').forEach(el => {
+  gsap.from(el, {
+    opacity: 0,
+    y: 50,
+    duration: 1,
+    scrollTrigger: {
+      trigger: el,
+      start: 'top 80%',
+      toggleActions: 'play none none none'
     }
+  });
+});
+
+// Improved AI Slider Animation
+const initSlider = () => {
+  const sliderContainer = document.querySelector('.ai-slider-container');
+  const cards = document.querySelectorAll('.ai-card');
+  
+  // Clone cards for infinite scroll
+  cards.forEach(card => {
+    const clone = card.cloneNode(true);
+    sliderContainer.appendChild(clone);
+  });
+
+  let animationFrameId;
+  let scrollPosition = 0;
+  const SCROLL_SPEED = 0.7;
+  const totalWidth = cards[0].offsetWidth * cards.length;
+  
+  const animate = () => {
+    scrollPosition -= SCROLL_SPEED;
+    
+    // Reset position when reaching the end
+    if (Math.abs(scrollPosition) >= totalWidth) {
+      scrollPosition = 0;
+    }
+    
+    // Use transform3d for better performance
+    sliderContainer.style.transform = `translate3d(${scrollPosition}px, 0, 0)`;
+    animationFrameId = requestAnimationFrame(animate);
+  };
+
+  // Start animation
+  animate();
+
+  // Pause on hover
+  const aiSlider = document.querySelector('.ai-slider');
+  
+  aiSlider.addEventListener('mouseenter', () => {
+    cancelAnimationFrame(animationFrameId);
+  });
+
+  aiSlider.addEventListener('mouseleave', () => {
+    animate();
+  });
+
+  // Handle touch events
+  let touchStart = 0;
+  let touchPosition = 0;
+  
+  aiSlider.addEventListener('touchstart', (e) => {
+    touchStart = e.touches[0].clientX;
+    touchPosition = scrollPosition;
+    cancelAnimationFrame(animationFrameId);
+  }, { passive: true });
+
+  aiSlider.addEventListener('touchmove', (e) => {
+    const diff = e.touches[0].clientX - touchStart;
+    scrollPosition = touchPosition + diff;
+    sliderContainer.style.transform = `translate3d(${scrollPosition}px, 0, 0)`;
+  }, { passive: true });
+
+  aiSlider.addEventListener('touchend', () => {
+    animate();
+  });
+
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    // Recalculate dimensions
+    scrollPosition = 0;
+    sliderContainer.style.transform = `translate3d(0, 0, 0)`;
+  });
+};
+
+// Initialize slider when DOM is loaded
+document.addEventListener('DOMContentLoaded', initSlider);
+
+// Reinitialize on window load to handle all assets
+window.addEventListener('load', initSlider);
   </script>
 </body>
 </html>
