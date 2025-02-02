@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(45deg, #000000, #0a0a2a);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #ffffff;
+  line-height: 1.5;
+  padding: 2rem;
+}
+
+.stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+}
+
+h1, h2 {
+  background: linear-gradient(90deg, #4a90e2, #87cefa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient 8s linear infinite;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.code-block {
+  background: rgba(20, 20, 30, 0.6);
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 1rem 0;
+  font-family: monospace;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+}
+
+.language-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.language-indicator::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #4a90e2;
+  border-radius: 50%;
+}
+
+.copy-button {
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.source-link {
+  color: #4a90e2;
+  text-decoration: none;
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.highlight {
+  color: #4a90e2;
+}
+
+.string {
+  color: #98c379;
+}
+
+.keyword {
+  color: #c678dd;
+}
+
+.method {
+  color: #61afef;
+}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div class="content">
+  <h1>Overview</h1>
+  
+  <p>Wrappers offer a flexible approach to enhancing or modifying an existing environment without changing its core implementation. By leveraging wrappers, you can reduce redundant code, promote modularity, and streamline your workflow. A significant advantage of wrappers is their ability to be stacked, allowing you to combine multiple enhancements seamlessly.</p>
+  
+  <p>To apply a wrapper, you first need to initialize the base environment. Afterward, you can instantiate the wrapper by passing the environment and any required parameters to its constructor.</p>
+  
+  <div class="code-block">
+    <div class="code-header">
+      <div class="language-indicator">Python</div>
+      <div class="copy-button">Copy</div>
+    </div>
+    <pre><span class="comment"># Example usage:</span>
+<span class="keyword">import</span> textarena <span class="keyword">as</span> ta
+
+env = ta.make(env_id=<span class="string">"UltimateTicTacToe-v0"</span>)
+env = ta.wrappers.LLMObservationWrapper(env=env)
+env = ta.wrappers.PrettyRenderWrapper(
+    env=env,
+    record_video=<span class="keyword">True</span>,
+    video_path=<span class="string">"Ultimatetictactoe_game.mp4"</span>
+)</pre>
+  </div>
+
+  <p>There are three common things you might want a wrapper to do:</p>
+  <p>Transform actions before applying them to the base environment<br>
+  Transform observations that are returned by the base environment<br>
+  Apply a render to base environment for friendly visualisations</p>
+
+  <h2>Base Wrapper Class</h2>
+  
+  <div class="code-block">
+    <div class="code-header">
+      <div>class textarena.core.Wrapper(env: Env)</div>
+      <a href="#" class="source-link">[source]</a>
+    </div>
+  </div>
+
+  <p>The base class for environment wrappers. It intercepts all calls to the wrapped environment and forwards them unless explicitly overridden.</p>
+
+  <h2>Methods</h2>
+  
+  <div class="code-block">
+    <div class="code-header">
+      <div>Wrapper.step(action: str) -> Tuple[bool, Info]</div>
+      <a href="#" class="source-link">[source]</a>
+    </div>
+  </div>
+  
+  <p>Executes a single step in the environment based on the action provided by the agent.</p>
+
+  <div class="code-block">
+    <div class="code-header">
+      <div>Wrapper.reset(seed: Optional[int])</div>
+      <a href="#" class="source-link">[source]</a>
+    </div>
+  </div>
+  
+  <p>Resets the environment and initializes it with a given seed. If no seed is provided, a random one is used.</p>
+  
+  <p>The reset method is critical for initializing the environment to a consistent state, ensuring reproducibility when a seed is provided.</p>
+
+  <div class="code-block">
+    <div class="code-header">
+      <div>Wrapper.get_observation(self)</div>
+      <a href="#" class="source-link">[source]</a>
+    </div>
+  </div>
+  
+  <p>Retrieves the current player ID and their observations, providing insights into the current state of the environment.</p>
+
+  <div class="code-block">
+    <div class="code-header">
+      <div>Wrapper.close(self)</div>
+      <a href="#" class="source-link">[source]</a>
+    </div>
+  </div>
+  
+  <p>Closes the environment and performs cleanup operations. This is essential for releasing resources or saving final states.</p>
+</div>
+
+<script>
+function createStars() {
+  const stars = document.getElementById('stars');
+  const numStars = 150;
+  
+  for (let i = 0; i < numStars; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    
+    star.style.left = `${Math.random() * 100}%`;
+    star.style.top = `${Math.random() * 100}%`;
+    
+    const delay = Math.random() * 3;
+    const duration = 1 + Math.random() * 2;
+    star.style.animation = `twinkle ${duration}s linear ${delay}s infinite`;
+    
+    stars.appendChild(star);
+  }
+}
+
+createStars();
+</script>
+</body>
+</html>
