@@ -268,6 +268,84 @@
       user-select: none;
     }
 
+    /* AI Models Section */
+    .ai-models {
+      text-align: center;
+      margin: 6rem 0;
+      opacity: 0;
+      animation: fadeInUp 1s ease forwards 2.2s;
+    }
+
+    .ai-models h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      background: linear-gradient(45deg, #4a90e2, #87ceeb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .ai-slider {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .ai-slider-container {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .ai-card {
+      flex: 0 0 33.33%;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .ai-card img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+    }
+
+    .ai-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .ai-card p {
+      font-size: 1rem;
+      color: #8ba3c7;
+    }
+
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      padding: 1rem;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      transition: all 0.3s;
+    }
+
+    .slider-arrow:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .slider-arrow.left {
+      left: 1rem;
+    }
+
+    .slider-arrow.right {
+      right: 1rem;
+    }
+
     /* Participate Section */
     .participate {
       text-align: center;
@@ -378,6 +456,153 @@
         <i class="fas fa-chart-line feature-icon"></i>
         <h3>Benchmark Development</h3>
         <p>Creating robust evaluation frameworks and metrics for performance assessment.</p>
+      </div>
+    </section>
+
+    <!-- AI Models Section -->
+    <section class="ai-models">
+      <h2>Available AI Models</h2>
+      <div class="ai-slider">
+        <div class="ai-slider-container">
+          <!-- AI Model Cards -->
+          <div class="ai-card">
+            <img src="https://d22e6o9mp4t2lx.cloudfront.net/cms/Screenshot_2024_06_25_at_1_47_23_AM_22fe15dba2.png" alt="Claude 3.5 Sonnet" />
+            <h3>Claude 3.5 Sonnet</h3>
+            <p>Excels in complex reasoning and creative tasks.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://miro.medium.com/v2/resize:fit:432/1*JLcpXxiFw_3S0h2QmpXtwA.png" alt="Llama 3.1 405b" />
+            <h3>Llama 3.1 405b</h3>
+            <p>Specializes in large-scale data processing and analysis.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/GPT-4.jpg" alt="GPT 4o" />
+            <h3>GPT 4o</h3>
+            <p>Known for its versatility and natural language understanding.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://d22e6o9mp4t2lx.cloudfront.net/cms/Screenshot_2024_06_25_at_1_47_23_AM_22fe15dba2.png" alt="Claude 3.5 Haiku" />
+            <h3>Claude 3.5 Haiku</h3>
+            <p>Optimized for speed and efficiency in text generation.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/GPT-4.jpg" alt="o1 mini" />
+            <h3>o1 mini</h3>
+            <p>Compact model with high performance in specific tasks.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://cdn.prod.website-files.com/650c3b59079d92475f37b68f/6798c7d1ee372a0b8f8122f4_66f41a073403f9e2b7806f05_qwen-logo.webp" alt="Qwen 2.5 72b" />
+            <h3>Qwen 2.5 72b</h3>
+            <p>Balanced performance for general-purpose applications.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://cdn.prod.website-files.com/614c82ed388d53640613982e/654a265b14576761c48ce9fa_grok-ai-elon-musk.webp" alt="Grok (beta)" />
+            <h3>Grok (beta)</h3>
+            <p>Experimental model with cutting-edge capabilities.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://miro.medium.com/v2/resize:fit:432/1*JLcpXxiFw_3S0h2QmpXtwA.png" alt="Llama 3.3 70b" />
+            <h3>Llama 3.3 70b</h3>
+            <p>High-capacity model for advanced AI tasks.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/GPT-4.jpg" alt="GPT 4o mini" />
+            <h3>GPT 4o mini</h3>
+            <p>Lightweight version of GPT 4o for quick tasks.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://images.seeklogo.com/logo-png/61/1/deepseek-ai-icon-logo-png_seeklogo-611473.png" alt="DeepSeek v3" />
+            <h3>DeepSeek v3</h3>
+            <p>Advanced model for deep learning applications.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://miro.medium.com/v2/resize:fit:1212/0*0q2TbHsrVhWq9KBs" alt="Gemma 2 27b" />
+            <h3>Gemma 2 27b</h3>
+            <p>Efficient model for mid-range tasks.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://via.placeholder.com/150" alt="Minimax 01" />
+            <h3>Minimax 01</h3>
+            <p>Optimized for minimal resource usage.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://custom.typingmind.com/assets/models/amazon-nova.png" alt="Nove Pro 1.0" />
+            <h3>Nove Pro 1.0</h3>
+            <p>Professional-grade model for enterprise use.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://cdn.prod.website-files.com/614c82ed388d53640613982e/654a265b14576761c48ce9fa_grok-ai-elon-musk.webp" alt="Grok 2" />
+            <h3>Grok 2</h3>
+            <p>Improved version of Grok with enhanced features.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://cdn.neowin.com/news/images/uploaded/2024/08/1724861624_gemini_august_release_1.width-1600.format-webp.jpg" alt="Gemini Flash 1.5 8b" />
+            <h3>Gemini Flash 1.5 8b</h3>
+            <p>Fast and efficient model for real-time applications.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://via.placeholder.com/150" alt="Humanity" />
+            <h3>Humanity</h3>
+            <p>Baseline model representing human performance.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://miro.medium.com/v2/resize:fit:1212/0*0q2TbHsrVhWq9KBs" alt="Gemma 2 9b" />
+            <h3>Gemma 2 9b</h3>
+            <p>Lightweight model for basic tasks.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://custom.typingmind.com/assets/models/amazon-nova.png" alt="Nove Lite 1.0" />
+            <h3>Nova Lite 1.0</h3>
+            <p>Entry-level model for beginners.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://images.seeklogo.com/logo-png/61/1/deepseek-ai-icon-logo-png_seeklogo-611473.png" alt="DeepSeek R1 Distill Llama 70B" />
+            <h3>DeepSeek R1 Distill Llama 70B</h3>
+            <p>Distilled version of Llama 70B for efficiency.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://cdn.prod.website-files.com/650c3b59079d92475f37b68f/6798c7d1ee372a0b8f8122f4_66f41a073403f9e2b7806f05_qwen-logo.webp" alt="Qwen 2.5 7b" />
+            <h3>Qwen 2.5 7b</h3>
+            <p>Compact model for lightweight applications.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://miro.medium.com/v2/resize:fit:432/1*JLcpXxiFw_3S0h2QmpXtwA.png" alt="Llama 3.2 3b" />
+            <h3>Llama 3.2 3b</h3>
+            <p>Small-scale model for basic AI tasks.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://custom.typingmind.com/assets/models/amazon-nova.png" alt="Nove Micro 1.0" />
+            <h3>Nova Micro 1.0</h3>
+            <p>Micro-sized model for embedded systems.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://miro.medium.com/v2/resize:fit:432/1*JLcpXxiFw_3S0h2QmpXtwA.png" alt="Llama 3.1 8b" />
+            <h3>Llama 3.1 8b</h3>
+            <p>Mid-range model for general-purpose use.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://www.geeky-gadgets.com/wp-content/uploads/2025/01/phi4-open-source-ai-performance-benchmark.jpg" alt="Phi-4" />
+            <h3>Phi-4</h3>
+            <p>Specialized model for niche applications.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://miro.medium.com/v2/resize:fit:432/1*JLcpXxiFw_3S0h2QmpXtwA.png" alt="Llama 3.2 1b (game tuned)" />
+            <h3>Llama 3.2 1b (game tuned)</h3>
+            <p>Optimized for gaming and interactive tasks.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://images.seeklogo.com/logo-png/61/1/deepseek-ai-icon-logo-png_seeklogo-611473.png" alt="DeepSeek r1" />
+            <h3>DeepSeek r1</h3>
+            <p>Experimental model for research purposes.</p>
+          </div>
+          <div class="ai-card">
+            <img src="https://miro.medium.com/v2/resize:fit:432/1*JLcpXxiFw_3S0h2QmpXtwA.png" alt="Llama 3.2 1b" />
+            <h3>Llama 3.2 1b</h3>
+            <p>Ultra-lightweight model for minimal tasks.</p>
+          </div>
+        </div>
+        <button class="slider-arrow left" onclick="slideLeft()"><i class="fas fa-chevron-left"></i></button>
+        <button class="slider-arrow right" onclick="slideRight()"><i class="fas fa-chevron-right"></i></button>
       </div>
     </section>
 
@@ -503,6 +728,30 @@
         toggleActions: 'play none none none'
       }
     });
+
+    // AI Slider Functionality
+    let currentSlide = 0;
+    const sliderContainer = document.querySelector('.ai-slider-container');
+    const totalSlides = document.querySelectorAll('.ai-card').length;
+
+    function slideLeft() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlider();
+      }
+    }
+
+    function slideRight() {
+      if (currentSlide < totalSlides - 3) {
+        currentSlide++;
+        updateSlider();
+      }
+    }
+
+    function updateSlider() {
+      const offset = -currentSlide * 33.33;
+      sliderContainer.style.transform = `translateX(${offset}%)`;
+    }
   </script>
 </body>
 </html>
