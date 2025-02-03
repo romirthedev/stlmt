@@ -2,7 +2,7 @@
 <html>
 <head>
   <style>
-   :root {
+    :root {
       --gradient-blue: linear-gradient(135deg, #60a5fa, #3b82f6);
       --hover-bg: rgba(59, 130, 246, 0.1);
     }
@@ -13,6 +13,12 @@
       display: flex;
       min-height: 100vh;
       overflow: hidden; /* Prevents body scrolling */
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+
+    body::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, and Opera */
     }
 
     .navbar {
@@ -23,6 +29,12 @@
       box-sizing: border-box;
       flex-shrink: 0;
       overflow-y: auto; /* Enables scrolling if the content is too tall */
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+
+    .navbar::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, and Opera */
     }
 
     .logo {
@@ -128,6 +140,12 @@
       align-items: center;
       height: 100vh;
       overflow: hidden; /* Prevents the page from scrolling */
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+
+    .content::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, and Opera */
     }
 
     iframe {
