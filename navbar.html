@@ -382,7 +382,7 @@
       display: block;
     }
 
-    /* Loading Spinner */
+    /* Loading Screen */
     .loading-screen {
       position: absolute;
       top: 0;
@@ -404,22 +404,30 @@
       visibility: visible;
     }
 
-    .spinner {
-      width: 50px;
-      height: 50px;
-      border: 4px solid #3b82f6;
-      border-top: 4px solid transparent;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
+    /* Cartoon Typing Animation */
+    .typing-animation {
+      width: 200px;
+      height: 200px;
+      position: relative;
     }
 
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
+    .typing-animation svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Animation for the cartoon figure */
+    @keyframes typing {
+      0%, 100% {
+        transform: translateY(0);
       }
-      100% {
-        transform: rotate(360deg);
+      50% {
+        transform: translateY(-10px);
       }
+    }
+
+    .typing-animation .figure {
+      animation: typing 1s ease-in-out infinite;
     }
   </style>
 </head>
@@ -486,7 +494,23 @@
 
   <div class="content">
     <div class="loading-screen" id="loadingScreen">
-      <div class="spinner"></div>
+      <div class="typing-animation">
+        <!-- Animated SVG of a cartoon figure typing -->
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cartoon figure -->
+          <circle cx="100" cy="100" r="50" fill="#3b82f6" />
+          <!-- Arms and keyboard -->
+          <line x1="70" y1="130" x2="50" y2="150" stroke="#000" stroke-width="5" />
+          <line x1="130" y1="130" x2="150" y2="150" stroke="#000" stroke-width="5" />
+          <!-- Keyboard -->
+          <rect x="60" y="160" width="80" height="20" fill="#ccc" />
+          <!-- Typing animation -->
+          <rect x="70" y="165" width="10" height="10" fill="#fff" class="figure" />
+          <rect x="85" y="165" width="10" height="10" fill="#fff" class="figure" />
+          <rect x="100" y="165" width="10" height="10" fill="#fff" class="figure" />
+          <rect x="115" y="165" width="10" height="10" fill="#fff" class="figure" />
+        </svg>
+      </div>
     </div>
     <iframe name="contentFrame" src="home.html" onload="hideLoadingScreen()"></iframe>
   </div>
@@ -501,7 +525,9 @@
 
     // Hide loading screen when the iframe has finished loading
     function hideLoadingScreen() {
-      document.getElementById('loadingScreen').classList.remove('active');
+      setTimeout(() => {
+        document.getElementById('loadingScreen').classList.remove('active');
+      }, 1000); // Wait for 1 second to ensure the animation is visible
     }
   </script>
 </body>
