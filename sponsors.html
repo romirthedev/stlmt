@@ -57,7 +57,9 @@
     header h1 {
       font-size: 3rem;
       margin: 0;
-      text-shadow: 0 0 10px #00FFFF, 0 0 20px #00FFFF;
+      background: linear-gradient(to right, #00FFFF, #0077FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       animation: float 3s ease-in-out infinite;
     }
 
@@ -77,12 +79,16 @@
     .current-sponsors h2 {
       font-size: 2rem;
       margin-bottom: 20px;
+      background: linear-gradient(to right, #00FFFF, #0077FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .sponsor-logos {
       display: flex;
       justify-content: center;
       gap: 30px;
+      flex-wrap: wrap;
     }
 
     .sponsor-logos img {
@@ -106,6 +112,9 @@
     .sponsor-us h2 {
       font-size: 2rem;
       margin-bottom: 30px;
+      background: linear-gradient(to right, #00FFFF, #0077FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .cards {
@@ -119,7 +128,7 @@
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(5px);
       border: 1px solid transparent;
-      border-image: linear-gradient(to right, #00FFFF, #FF00FF);
+      border-image: linear-gradient(to right, #00FFFF, #0077FF);
       border-image-slice: 1;
       padding: 20px;
       width: 250px;
@@ -154,7 +163,9 @@
       margin: 50px 0 20px 0;
       font-size: 1.8rem;
       color: #FFFFFF;
-      text-shadow: 0 0 10px #00FFFF, 0 0 20px #00FFFF;
+      background: linear-gradient(to right, #00FFFF, #0077FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     /* Modern Form Styling */
@@ -165,7 +176,7 @@
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       border: 1px solid transparent;
-      border-image: linear-gradient(to right, #00FFFF, #FF00FF);
+      border-image: linear-gradient(to right, #00FFFF, #0077FF);
       border-image-slice: 1;
       border-radius: 15px;
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
@@ -202,8 +213,8 @@
     .form-group input:focus,
     .form-group textarea:focus {
       outline: none;
-      border-color: #FF00FF;
-      box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+      border-color: #0077FF;
+      box-shadow: 0 0 10px rgba(0, 119, 255, 0.5);
     }
 
     .form-group textarea {
@@ -214,7 +225,7 @@
     .submit-button {
       display: inline-block;
       padding: 12px 24px;
-      background: linear-gradient(to right, #00FFFF, #FF00FF);
+      background: linear-gradient(to right, #00FFFF, #0077FF);
       color: #000000;
       font-size: 1.2rem;
       border: none;
@@ -231,7 +242,7 @@
     /* Glowing Effect */
     @keyframes glow {
       0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); }
-      50% { box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
+      50% { box-shadow: 0 0 20px rgba(0, 119, 255, 0.5); }
     }
 
     .sponsor-form {
@@ -259,6 +270,9 @@
     .modal h3 {
       font-size: 2rem;
       margin-bottom: 20px;
+      background: linear-gradient(to right, #00FFFF, #0077FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .modal p {
@@ -313,9 +327,11 @@
   <section class="current-sponsors">
     <h2>Current Sponsors</h2>
     <div class="sponsor-logos">
-      <img src="https://www.raptorwrite.com/or_logo.png" alt="OpenRouter" onclick="openModal('OpenRouter', 'OpenRouter is a leading AI platform.', 'https://openrouter.ai')">
-      <img src="https://img.icons8.com/androidL/200/FFFFFF/amazon-web-services.png" alt="AWS" onclick="openModal('AWS', 'Amazon Web Services provides scalable cloud computing solutions.', 'https://aws.amazon.com')">
-      <img src="https://ih1.redbubble.net/image.5431968934.1254/raf,360x360,075,t,fafafa:ca443f4786.jpg" alt="Anthropic" onclick="openModal('Anthropic', 'Anthropic focuses on AI safety and research.', 'https://www.anthropic.com')">
+      <img src="https://www.raptorwrite.com/or_logo.png" alt="OpenRouter" onclick="openModal('OpenRouter', 'A platform that provides API access to multiple AI models from different providers, allowing users to route requests dynamically based on performance, cost, or preference.', 'https://openrouter.ai')">
+      <img src="https://img.icons8.com/androidL/200/FFFFFF/amazon-web-services.png" alt="AWS" onclick="openModal('AWS', 'A leading cloud computing platform providing scalable infrastructure, AI/ML services, and enterprise solutions to businesses and developers worldwide.', 'https://aws.amazon.com')">
+      <img src="https://ih1.redbubble.net/image.5431968934.1254/raf,360x360,075,t,fafafa:ca443f4786.jpg" alt="Anthropic" onclick="openModal('Anthropic', 'An AI safety and research company focused on building reliable and steerable AI models, known for developing Claude, an advanced conversational AI.', 'https://www.anthropic.com')">
+      <img src="https://white.logodownload.org/wp-content/uploads/2020/11/google-white-logo.png" alt="Google" onclick="openModal('Google', 'A global technology leader offering a vast range of products and services, including AI-powered tools, cloud computing through Google Cloud, and advanced research in machine learning.', 'https://www.google.com')">
+      <img src="https://via.placeholder.com/150" alt="Gabriel" onclick="openModal('Gabriel', 'Gabriel is a leading AI research organization.', 'https://www.gabriel.com')">
     </div>
   </section>
 
@@ -410,6 +426,26 @@
       modal.style.display = 'none';
       modalOverlay.style.display = 'none';
     }
+
+    // Form Submission Handling
+    const form = document.querySelector('.sponsor-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      if (response.ok) {
+        alert('Thank you for your submission!');
+        form.reset();
+      } else {
+        alert('Oops! Something went wrong.');
+      }
+    });
   </script>
 </body>
 </html>
