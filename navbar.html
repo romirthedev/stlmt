@@ -142,6 +142,7 @@
       overflow: hidden; /* Prevents the page from scrolling */
       -ms-overflow-style: none; /* IE and Edge */
       scrollbar-width: none; /* Firefox */
+      position: relative;
     }
 
     .content::-webkit-scrollbar {
@@ -154,7 +155,36 @@
       border: none;
       display: block;
     }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .loading-screen.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Lottie Animation Container */
+    #lottie-animation {
+      width: 200px;
+      height: 200px;
+    }
   </style>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 <body>
   <nav class="navbar">
@@ -218,10 +248,34 @@
   </nav>
 
   <div class="content">
-    <iframe name="contentFrame" src="home.html"></iframe>
+    <div class="loading-screen" id="loadingScreen">
+      
+      <lottie-player
+        id="lottie-animation"
+        src="Infinity@1x-1.0s-200px-200px.gif"
+        background="transparent"
+        speed="1"
+        loop
+        autoplay
+      ></lottie-player>
+    </div>
+    <iframe name="contentFrame" src="home.html" onload="hideLoadingScreen()"></iframe>
   </div>
-</body>
-</html>
+
+  <script>
+    // Show loading screen when a link is clicked
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('loadingScreen').classList.add('active');
+      });
+    });
+
+    // Hide loading screen when the iframe has finished loading
+    function hideLoadingScreen() {
+      setTimeout(() => {
+        document.getElementById('loadingScreen').classList.remove('active');
+      }, 1000); // Wait for 1 second to ensure the animation is visible
+    }
 -->
 
 <!DOCTYPE html>
@@ -404,14 +458,12 @@
       visibility: visible;
     }
 
-    /* Lottie Animation Container */
-    #lottie-animation {
+    /* GIF Animation Container */
+    .loading-gif {
       width: 200px;
       height: 200px;
     }
   </style>
-  <!-- Include Lottie Player Library -->
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 <body>
   <nav class="navbar">
@@ -476,15 +528,8 @@
 
   <div class="content">
     <div class="loading-screen" id="loadingScreen">
-      <!-- Lottie Animation -->
-      <lottie-player
-        id="lottie-animation"
-        src="Infinity@1x-1.0s-200px-200px.gif"
-        background="transparent"
-        speed="1"
-        loop
-        autoplay
-      ></lottie-player>
+      <!-- GIF Animation -->
+      <img class="loading-gif" src="https://raw.githubusercontent.com/romirthedev/stlmt/main/Infinity@1x-1.0s-200px-200px.gif" alt="Loading Animation">
     </div>
     <iframe name="contentFrame" src="home.html" onload="hideLoadingScreen()"></iframe>
   </div>
@@ -501,8 +546,11 @@
     function hideLoadingScreen() {
       setTimeout(() => {
         document.getElementById('loadingScreen').classList.remove('active');
-      }, 1000); // Wait for 1 second to ensure the animation is visible
+      }, 1500); // Wait for 1.5 seconds to ensure the animation is visible
     }
+  </script>
+</body>
+</html>
   </script>
 </body>
 </html>
